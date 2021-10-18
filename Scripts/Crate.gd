@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+var target_count = 0
+
 
 func push(offset: Vector2) -> bool:
 	$RayCast.cast_to = offset
@@ -20,3 +22,15 @@ func push(offset: Vector2) -> bool:
 	$Tween.start()
 	
 	return true
+
+
+func entered_target(_target):
+	target_count += 1
+	_update_check_mark()
+
+func left_target(_target):
+	target_count -= 1
+	_update_check_mark()
+
+func _update_check_mark():
+	$CheckSprite.visible = target_count > 0
