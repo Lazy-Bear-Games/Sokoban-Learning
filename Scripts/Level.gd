@@ -9,6 +9,11 @@ var level_data = []
 
 
 func _ready():
+	delete_children($Walls)
+	delete_children($Floors)
+	delete_children($Crates)
+	delete_children($Targets)
+	
 	var file = File.new()
 	file.open("res://Levels/1-1.sokolvl", File.READ)
 	
@@ -49,3 +54,8 @@ func _ready():
 				
 			row += 1
 	file.close()
+
+static func delete_children(node):
+	for n in node.get_children():
+		node.remove_child(n)
+		n.queue_free()
