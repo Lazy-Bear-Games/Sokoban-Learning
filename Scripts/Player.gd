@@ -18,17 +18,25 @@ func _unhandled_input(event):
 		move_intent = Vector2(0, 1)
 	
 	if move_intent != Vector2.ZERO:
-		$RayCast.cast_to = move_intent * GRID_SIZE
+		var offset = move_intent * GRID_SIZE
+		
+		$RayCast.cast_to = offset
 		$RayCast.force_raycast_update()
 		
 		if $RayCast.is_colliding():
-			return
+			var collider = $RayCast.get_collider()
+			if collider.is_in_group('crates'):
+				if !collider.push(offset):
+					return
+			
+			else:
+				return
 		
 		$Tween.interpolate_property(
 			self,
 			"position",
 			self.position,
-			self.position + move_intent * GRID_SIZE,
+			self.position + offset,
 			0.05,
 			Tween.TRANS_LINEAR,
 			Tween.EASE_IN_OUT)
