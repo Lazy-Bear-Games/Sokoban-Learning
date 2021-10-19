@@ -11,15 +11,16 @@ func _unhandled_input(event):
 	var move_intent = Vector2.ZERO
 	
 	if event.is_action_pressed("ui_right", true):
-		move_intent = Vector2(1, 0)
+		move_intent = Vector2.RIGHT
 	elif event.is_action_pressed("ui_left", true):
-		move_intent = Vector2(-1, 0)
+		move_intent = Vector2.LEFT
 	elif event.is_action_pressed("ui_up", true):
-		move_intent = Vector2(0, -1)
+		move_intent = Vector2.UP
 	elif event.is_action_pressed("ui_down", true):
-		move_intent = Vector2(0, 1)
+		move_intent = Vector2.DOWN
 	elif event.is_action_pressed("level_reload"):
 		$".."._ready()
+		_animate(Vector2.DOWN, false)
 		_update_moves(0)
 		return
 	
@@ -33,9 +34,11 @@ func _unhandled_input(event):
 			var collider = $RayCast.get_collider()
 			if collider.is_in_group('crates'):
 				if !collider.push(offset):
+					_animate(move_intent, false)
 					return
 			
 			else:
+				_animate(move_intent, false)
 				return
 		
 		_update_moves(moves + 1)
@@ -50,13 +53,22 @@ func _unhandled_input(event):
 			Tween.EASE_IN_OUT)
 		$Tween.start()
 		
-		if move_intent in [Vector2.RIGHT, Vector2.DOWN]:
-			$AnimationPlayer.play("right")
-		elif move_intent == Vector2.LEFT:
-			$AnimationPlayer.play("left")
-		elif move_intent == Vector2.UP:
-			$AnimationPlayer.play("up")
+		_animate(move_intent, true)
 
 func _update_moves(new_moves: int):
 	moves = new_moves
 	$"../UI/MovesLabel".text = "Moves: " + str(moves)
+
+
+func _animate(direction: Vector2, active: bool):
+	if direction == Vector2.RIGHT:
+		$AnimationPlayer.play("right")
+	elif direction == Vector2.LEFT:
+		$AnimationPlayer.play("left")
+	elif direction == Vector2.UP:
+		$AnimationPlayer.play("up")
+	elif direction == Vector2.DOWN:
+		$AnimationPlayer.play("down")
+	
+	if !active:
+		$AnimationPlayer.seek(0.05)
