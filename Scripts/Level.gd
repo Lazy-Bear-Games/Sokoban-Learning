@@ -14,9 +14,7 @@ func _ready():
 	delete_children($Crates)
 	delete_children($Targets)
 	
-	$WinScreen/AnimationPlayer.play("show")
-	$WinScreen/AnimationPlayer.seek(0, true)
-	$WinScreen/AnimationPlayer.stop()
+	$WinScreen.hide()
 	
 	var file = File.new()
 	file.open("res://Levels/1-1.sokolvl", File.READ)
@@ -73,4 +71,4 @@ func _on_Crate_target_updated():
 			crates_in_place += 1
 	
 	if crates_in_place == $Crates.get_child_count():
-		$"WinScreen/AnimationPlayer".play("show")
+		$WinScreen.show()
