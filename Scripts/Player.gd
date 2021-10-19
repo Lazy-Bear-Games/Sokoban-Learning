@@ -49,6 +49,13 @@ func _unhandled_input(event):
 			Tween.TRANS_LINEAR,
 			Tween.EASE_IN_OUT)
 		$Tween.start()
+		
+		if move_intent in [Vector2.RIGHT, Vector2.DOWN]:
+			$AnimationPlayer.play("right")
+		elif move_intent == Vector2.LEFT:
+			$AnimationPlayer.play("left")
+		elif move_intent == Vector2.UP:
+			$AnimationPlayer.play("up")
 
 func _update_moves(new_moves: int):
 	moves = new_moves
