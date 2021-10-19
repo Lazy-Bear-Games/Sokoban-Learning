@@ -7,17 +7,21 @@ var target_prefab = load("res://Prefabs/Target.tscn")
 
 var level_data = []
 
+signal level_completed()
+signal level_reset()
 
 func _ready():
+	$Player.connect("level_reset_requested", self, "_on_Player_level_reset_requested")
+	_reset_level("1-1")
+
+func _reset_level(level: String):
 	delete_children($Walls)
 	delete_children($Floors)
 	delete_children($Crates)
 	delete_children($Targets)
 	
-	$WinScreen.hide()
-	
 	var file = File.new()
-	file.open("res://Levels/1-1.sokolvl", File.READ)
+	file.open("res://Levels/%s.sokolvl" % level, File.READ)
 	
 	var row = 0
 	
@@ -71,4 +75,8 @@ func _on_Crate_target_updated():
 			crates_in_place += 1
 	
 	if crates_in_place == $Crates.get_child_count():
-		$WinScreen.show()
+		emit_signal("level_completed")
+
+func _on_Player_level_reset_requested():
+	_reset_level("1-1")
+	emit_signal("level_reset")

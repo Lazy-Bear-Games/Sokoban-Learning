@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+signal level_reset_requested()
+
 const GRID_SIZE = 32
 
 var moves = 0
@@ -22,7 +24,7 @@ func _unhandled_input(event):
 	elif event.is_action_pressed("ui_down", true):
 		move_intent = Vector2.DOWN
 	elif event.is_action_pressed("level_reload"):
-		$".."._ready()
+		emit_signal("level_reset_requested")
 		_animate(Vector2.DOWN, false)
 		_update_moves(0)
 		last_move = null
