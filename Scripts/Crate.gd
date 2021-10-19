@@ -2,6 +2,8 @@ extends KinematicBody2D
 
 var target_count = 0
 
+signal target_updated()
+
 
 func push(offset: Vector2) -> bool:
 	$RayCast.cast_to = offset
@@ -27,10 +29,12 @@ func push(offset: Vector2) -> bool:
 func entered_target(_target):
 	target_count += 1
 	_update_check_mark()
+	emit_signal("target_updated")
 
 func left_target(_target):
 	target_count -= 1
 	_update_check_mark()
+	emit_signal("target_updated")
 
 func _update_check_mark():
 	$CheckSprite.visible = target_count > 0
