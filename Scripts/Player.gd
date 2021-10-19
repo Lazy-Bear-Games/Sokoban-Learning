@@ -4,6 +4,9 @@ const GRID_SIZE = 32
 
 var moves = 0
 
+var last_move = null
+var last_move_crate = null
+
 func _unhandled_input(event):
 	if $Tween.is_active():
 		return
@@ -22,6 +25,17 @@ func _unhandled_input(event):
 		$".."._ready()
 		_animate(Vector2.DOWN, false)
 		_update_moves(0)
+		last_move = null
+		last_move_crate = null
+		return
+	elif event.is_action_pressed("undo_last_move"):
+		if last_move != null:
+			self.position -= last_move * GRID_SIZE
+			if last_move_crate != null:
+				last_move_crate.position -= last_move * GRID_SIZE
+			_update_moves(moves - 1)
+			last_move = null
+			last_move_crate = null
 		return
 	
 	if move_intent != Vector2.ZERO:
@@ -36,12 +50,18 @@ func _unhandled_input(event):
 				if !collider.push(offset):
 					_animate(move_intent, false)
 					return
+				
+				last_move_crate = collider
 			
 			else:
 				_animate(move_intent, false)
 				return
 		
+		else:
+			last_move_crate = null
+		
 		_update_moves(moves + 1)
+		last_move = move_intent
 		
 		$Tween.interpolate_property(
 			self,
