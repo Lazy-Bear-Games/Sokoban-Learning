@@ -98,7 +98,6 @@ __meta__ = {
 }
 
 [node name="WinScreen" type="Node2D" parent="."]
-visible = false
 z_index = 20
 
 [node name="LevelCompleteBackground" type="ColorRect" parent="WinScreen"]
