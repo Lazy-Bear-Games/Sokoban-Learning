@@ -30,11 +30,19 @@ func _reset_level():
 	var file = File.new()
 	file.open("res://Levels/%s.sokolvl" % current_level, File.READ)
 	
+	var version = 0
 	var row = 0
 	
 	while !file.eof_reached():
 		var line = file.get_line()
-		if !line.begins_with(";"):
+		if line.begins_with(";"):
+			var meta = line.split(': ', false, 1)
+			if meta[0] == ';version':
+				version = int(meta[1])
+		elif line != '':
+			if version != 1:
+				push_error("Not supported .sokolvl version: " + str(version))
+				return
 			var col = 0
 			
 			for x in line:
