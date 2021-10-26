@@ -45,21 +45,21 @@ func _reset_level():
 					wall.position = tile_pos
 					$Walls.add_child(wall)
 				
-				elif x in ['.', 'X', 'O', '@']:
+				if x in ['.', 'X', 'O', '@', '%', 'A']:
 					var flr = floor_prefab.instance()
 					flr.position = tile_pos
 					$Floors.add_child(flr)
 				
-				if x == '@':
+				if x in ['@', 'A']:
 					$Player.position = tile_pos
 				
-				elif x == 'X':
+				if x in ['X', '%']:
 					var crate = crate_prefab.instance()
 					crate.position = tile_pos
 					crate.connect("target_updated", self, "_on_Crate_target_updated")
 					$Crates.add_child(crate)
 				
-				elif x == 'O':
+				if x in ['O', '%', 'A']:
 					var target = target_prefab.instance()
 					target.position = tile_pos
 					$Targets.add_child(target)

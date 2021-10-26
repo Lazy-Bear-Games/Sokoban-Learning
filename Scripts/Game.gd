@@ -5,7 +5,7 @@ func _ready():
 	$Level.connect("level_completed", self, "_on_Level_level_completed")
 	$Level.connect("level_reset", self, "_on_Level_level_reset")
 	
-	$Level.load_level("1-1")
+	$Level.load_level("1-2")
 
 func _on_Level_level_completed():
 	$WinScreen.show()
