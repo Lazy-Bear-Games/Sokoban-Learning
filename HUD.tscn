@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Assets/regular_font.tres" type="DynamicFont" id=1]
+
+[node name="HUD" type="Control"]
+margin_right = 1024.0
+margin_bottom = 600.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MovesLabel" type="RichTextLabel" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -352.0
+margin_top = 64.0
+margin_right = -64.0
+margin_bottom = 104.0
+custom_fonts/normal_font = ExtResource( 1 )
+text = "Moves: 0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HintsLabel" type="RichTextLabel" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -416.0
+margin_top = -96.0
+margin_right = -16.0
+margin_bottom = -16.0
+custom_fonts/normal_font = ExtResource( 1 )
+text = "Z - Undo last move
+R - Restart level"
+__meta__ = {
+"_edit_use_anchors_": false
+}
