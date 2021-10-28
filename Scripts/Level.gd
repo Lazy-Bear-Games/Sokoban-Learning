@@ -1,4 +1,4 @@
-extends Node2D
+extends CanvasLayer
 
 const GRID_SIZE = 32
 
@@ -16,7 +16,6 @@ signal level_reset()
 
 func _ready():
 	$LevelContainer/Player.connect("level_reset_requested", self, "_on_Player_level_reset_requested")
-	get_tree().get_root().connect("size_changed", self, "_handle_resize")
 
 func load_level(level: String):
 	current_level = level
@@ -83,7 +82,13 @@ func _reset_level():
 			level_size.x = max(level_size.x, col)
 			
 	file.close()
-	_handle_resize()
+	
+	$LevelContainer.rect_pivot_offset = level_size * GRID_SIZE / 2
+	$LevelContainer.margin_left = -level_size.x * GRID_SIZE / 2
+	$LevelContainer.margin_right = level_size.x * GRID_SIZE / 2
+	$LevelContainer.margin_top = -level_size.y * GRID_SIZE / 2
+	$LevelContainer.margin_bottom = level_size.x * GRID_SIZE / 2
+	$LevelContainer.rect_size = level_size * GRID_SIZE
 
 static func delete_children(node):
 	for n in node.get_children():
@@ -103,6 +108,3 @@ func _on_Crate_target_updated():
 func _on_Player_level_reset_requested():
 	_reset_level()
 	emit_signal("level_reset")
-
-func _handle_resize():
-	$LevelContainer.position = get_viewport_rect().size / 2 - level_size * GRID_SIZE / 2
