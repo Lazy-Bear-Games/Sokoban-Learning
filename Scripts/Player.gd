@@ -79,7 +79,7 @@ func _unhandled_input(event):
 
 func _update_moves(new_moves: int):
 	moves = new_moves
-	$"../UI/MovesLabel".text = "Moves: " + str(moves)
+	$"../../HUD/MovesLabel".text = "Moves: " + str(moves)
 
 
 func _animate(direction: Vector2, active: bool):
