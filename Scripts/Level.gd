@@ -35,6 +35,7 @@ func _reset_level():
 	
 	var version = 0
 	var row = 0
+	level_size = Vector2(0, 0)
 	
 	while !file.eof_reached():
 		var line = file.get_line()
